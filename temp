@@ -3,3 +3,28 @@ sudo yum install -y https://dl.grafana.com/enterprise/release/grafana-enterprise
 sudo /bin/systemctl daemon-reload
 sudo /bin/systemctl enable grafana-server.service
 sudo /bin/systemctl start grafana-server.service
+
+
+====
+sudo nano /etc/yum.repos.d/grafana.repo
+
+
+[Unit]
+Description=Loki
+After=network.target
+
+[Service]
+User=loki
+Group=loki
+ExecStart=/usr/local/bin/loki -config.file /etc/loki/local-config.yaml
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
+
+
+
+
+sudo systemctl daemon-reload
+sudo systemctl start loki
+sudo systemctl enable loki
